@@ -20,7 +20,9 @@
                         </div>
                         <div class="txt_field psw">
                             <input type="password" required>
-                            <span></span>
+                            <span>
+                                <i class="fas"></i>
+                            </span>
                             <label>Password</label>
                         </div>
                         <div class="remember">
@@ -31,13 +33,8 @@
                         <div class="btn-container">
                             <button>Sign up</button> 
                         </div>
-                        
                     </form>
                 </div>
-               
-                      
-                
-                
             </div>
         </div>
         <div class="right-container">

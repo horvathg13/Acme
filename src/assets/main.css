@@ -64,7 +64,8 @@ form .txt_field{
   margin: 30px 0;
 }
 form .txt_field.psw{
-  margin: 10px 0; 
+  margin: 10px 0;
+  position: relative;
 }
 .txt_field input{
   width: 100%;
@@ -95,10 +96,13 @@ form .txt_field.psw{
   background: #2691d9;
   transition: .5s;
 }
+
 .txt_field input:focus ~ label,
 .txt_field input:valid ~ label{
   top: -5px;
-  color: #2691d9;
+  color: #4A90E2;
+  line-height: 15px;
+  font-size: 12px;
 }
 .txt_field input:focus ~ span::before,
 .txt_field input:valid ~ span::before{
@@ -151,4 +155,26 @@ form button{
   border: none;
   color: white;
   background-color: rgba(74,144,226,1);
+  cursor: pointer;
+}
+
+form button:hover{
+  background-color: rgb(64, 123, 190);
+}
+
+i.fas{
+  position: absolute;
+  background-image: url("../components/icons/fa-eye@2x.png");
+  width: 30px;
+  height: 20px;
+  background-size: cover;
+  display: flex;
+  right: 10px;
+  top:50%;
+  cursor: pointer;
+  transition: .5s;
+  
+}
+.txt_field.psw input:focus ~ span i.fas{
+  top:13px;
 }
