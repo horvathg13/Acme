@@ -22,6 +22,12 @@
                             <input type="password" required>
                             <span>
                                 <i class="fas"></i>
+                                <div class="password-strength">
+                                    <span class="dot"></span>
+                                    <span class="dot"></span>
+                                    <span class="dot"></span>
+                                    <span class="dot"></span>
+                                </div>
                             </span>
                             <label>Password</label>
                         </div>

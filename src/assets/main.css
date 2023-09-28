@@ -175,6 +175,23 @@ i.fas{
   transition: .5s;
   
 }
-.txt_field.psw input:focus ~ span i.fas{
+.txt_field.psw input:focus ~ span i.fas,
+.txt_field.psw input:focus ~ span .password-strength{
   top:13px;
+}
+.password-strength {
+  position: absolute;
+  top: 50%;
+  right: 0px; 
+  transform: translateY(-50%);
+  display: grid;
+  gap: 5px; 
+  transition: .5s;
+}
+
+.password-strength .dot {
+  width: 5px;
+  height: 5px;
+  background-color: gray;
+  border-radius: 50%;
 }
