@@ -44,11 +44,18 @@
             </div>
         </div>
         <div class="right-container">
-            <div class="logo"></div>
-            <div class="text-container">
-
+            <div class="background"></div>
+            <div class="logo">
+                <i class="acme"></i>
             </div>
-            <button>Log in</button>
+            <div class="text-container">
+                <h2>Do you already have an account?</h2>
+                <h4>That's awesome! You can log in by clicking on the button below. To skip the next time, you can ask us to remember your login credentials.</h4>
+            </div>
+            <div class="login-btn">
+                <button>Log in</button>
+            </div>
+            
         </div>
     </div>
 </template>
