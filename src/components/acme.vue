@@ -1,4 +1,17 @@
 <script>
+export default{
+    data(){
+        return{
+            email:"",
+            password:"",
+            rememberMe:null,
+        }
+    },
+    
+    methods:{
+        
+    },
+}
 
 
 </script>
@@ -14,12 +27,12 @@
                 <div class="form-container">
                     <form method="post">
                         <div class="txt_field">
-                            <input type="text" required>
+                            <input type="text" v-model="email" required>
                             <span></span>
                             <label>Email</label>
                         </div>
                         <div class="txt_field psw">
-                            <input type="password" required>
+                            <input type="password" v-model="password" required>
                             <span>
                                 <i class="fas"></i>
                                 <div class="password-strength">
@@ -32,7 +45,7 @@
                             <label>Password</label>
                         </div>
                         <div class="remember">
-                            <input type="checkbox" class="custom-checkbox" id="remember-checkbox">
+                            <input type="checkbox" class="custom-checkbox" id="remember-checkbox" v-model="rememberMe">
                             <label for="remember-checkbox"></label>
                             <h5>Remember me.</h5>
                         </div>
