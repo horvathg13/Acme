@@ -15,12 +15,16 @@
 
 .left-container{
   width: 50%;
+  min-width:370px;
+  min-height: 660px;
   float: left;
   height: 100vh;
 
 }
 .right-container{
   width:50%;
+  min-width:375px;
+  min-height: 667px;
   float:right;
   height: 100vh;
   position: relative;
@@ -30,7 +34,8 @@
 
 /*Register container*/
 .reg-container{
-  width: 400px;
+  min-width: 300px;
+  max-width: 400px;
   height: 400px;
   background-color: rgba(255,255,255,1);
   margin:25% auto;
@@ -119,7 +124,7 @@ form .txt_field.psw{
   font-size: 14px;
   line-height: 17px;
   color: #A1A1A1;
-  width: 350px;
+  
   height: 20px;
   display: inline-flex;
   align-items: center;
@@ -171,7 +176,7 @@ form button:hover{
   transition: .3s;
 }
 
-i.fas{
+i.fa-eye{
   position: absolute;
   background-image: url("../components/icons/fa-eye@2x.png");
   width: 30px;
@@ -182,9 +187,21 @@ i.fas{
   top:50%;
   cursor: pointer;
   transition: .5s;
-  
 }
-.txt_field.psw input:focus ~ span i.fas,
+i.fa-eye-slash{
+  position: absolute;
+  background-image: url("../components/icons/fa-eye-slash@2x.png");
+  width: 30px;
+  height: 20px;
+  background-size: cover;
+  display: flex;
+  right: 10px;
+  top:50%;
+  cursor: pointer;
+  transition: .5s;
+}
+.txt_field.psw input:focus ~ span i.fa-eye,
+.txt_field.psw input:focus ~ span i.fa-eye-slash,
 .txt_field.psw input:focus ~ span .password-strength{
   top:13px;
 }
@@ -206,6 +223,8 @@ i.fas{
 }
 
 
+
+
 /*Right container*/
 
 .background{
@@ -216,11 +235,11 @@ i.fas{
 }
 .logo{
   display: flex;
-  top:0;
   position: absolute;
-  top:20%;
-  margin:0 10%;
+  margin:5% 10%;
   width: 310px;
+  height: fit-content;
+  top:15%;
 }
 .logo i.acme{
   background-image: url("../components/icons/acme@3x.png");
@@ -228,6 +247,16 @@ i.fas{
   background-repeat:no-repeat ;
   width:200px;
   height: 50px;
+  margin:5px 10%;
+}
+.content{
+  position: absolute;
+  top:30%;
+  margin: 5px 10%;
+  width: 310px;
+  display: flex;
+  flex-direction: column;
+
 }
 .text-container h2{
   font-family: 'Open Sans', sans-serif;
@@ -244,16 +273,13 @@ i.fas{
   color: #FFFFFF;
 }
 .text-container{
-  position: absolute;
-  top:20%;
   width: 310px;
   margin:10% 10%;
 }
 
 .login-btn{
-  position: absolute;
   top:50%;
-  margin: 0 10%;
+  margin: 5px 10%;
  
 }
 
