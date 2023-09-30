@@ -1,15 +1,52 @@
 <script>
+import { setBlockTracking } from 'vue';
+
 export default{
     data(){
         return{
             email:"",
             password:"",
             rememberMe:null,
+            showPsw:true,
+            colors:["grey", "grey", "grey", "grey"],
+
         }
     },
-    
+    watch:{
+        password:{
+            handler(newValue){
+                if(this.password === ""){
+                    this.colors=["grey", "grey", "grey", "grey"];
+                }
+
+                if(newValue.length>0 && newValue.length < 3){
+                    this.colors=["grey", "grey", "grey", "#CD4146"]
+                }else{
+                    if(/[a-z]/g.test(newValue) && /[A-Z]/g.test(newValue) && /[\d]/g.test(newValue) && /[\!\@\#\$\%\^\&\*\)\(\+\=\.\<\>\{\}\[\]\:\;\'\"\|\~\`\_\-]/g.test(newValue)){
+                        this.colors = ["lightgreen", "#0A96A3", "#F9C466", "#CD4146"];
+                    } else if (/[a-z]/g.test(newValue) && /[A-Z]/g.test(newValue) && /[\d]/g.test(newValue)){
+                        this.colors = ["grey", "#0A96A3", "#F9C466", "#CD4146"];
+                    } else if (/[a-z]/g.test(newValue) || /\d/g.test(newValue)){
+                        this.colors = ["grey", "grey", "grey", "#CD4146"];
+                    }
+                }
+            }
+            
+        }
+    },
+    computed:{
+        passwordShowOrHide(){
+            if(this.showPsw === false){
+                return 'fa-eye';
+            }else{
+                return 'fa-eye-slash'
+            }
+        },
+    },    
     methods:{
-        
+        ShowPassword(){
+            this.showPsw = !this.showPsw;
+        }
     },
 }
 
@@ -32,14 +69,12 @@ export default{
                             <label>Email</label>
                         </div>
                         <div class="txt_field psw">
-                            <input type="password" v-model="password" required>
+                            <input v-if="this.showPsw === false" type="password" v-model="this.password" required>
+                            <input v-else type="text" v-model="password" required>
                             <span>
-                                <i class="fas"></i>
-                                <div class="password-strength">
-                                    <span class="dot"></span>
-                                    <span class="dot"></span>
-                                    <span class="dot"></span>
-                                    <span class="dot"></span>
+                                <i :class="{'fa-eye': !showPsw, 'fa-eye-slash':showPsw}" @click="ShowPassword"></i>
+                                <div class="password-strength" >
+                                    <span class="dot" v-for="(color,index) in colors" :key="index" :style="{backgroundColor:color}"></span>
                                 </div>
                             </span>
                             <label>Password</label>
@@ -61,13 +96,19 @@ export default{
             <div class="logo">
                 <i class="acme"></i>
             </div>
-            <div class="text-container">
-                <h2>Do you already have an account?</h2>
-                <h4>That's awesome! You can log in by clicking on the button below. To skip the next time, you can ask us to remember your login credentials.</h4>
+            <div class="content">
+                
+                <div class="text-container">
+                    <h2>Do you already have an account?</h2>
+                    <h4>That's awesome! You can log in by clicking on the button below. To skip the next time, you can ask us to remember your login credentials.</h4>
+                </div>
+                <div class="login-btn">
+                    <button @click="">Log in</button>
+                </div>
             </div>
-            <div class="login-btn">
-                <button>Log in</button>
-            </div>
+            
+           
+            
             
         </div>
     </div>
