@@ -2,7 +2,7 @@
 
 #app {
   min-width: 100%;
-  min-height: 100vh;
+  min-height: 100%;
   font-weight: normal;
   background-color: rgba(244,244,244,1);
 }
@@ -10,7 +10,7 @@
 .base{
   width: 100%;
   margin: 0 auto;
-  min-height: 100vh;
+  min-height: 100%;
 }
 
 .left-container{
@@ -28,6 +28,11 @@
   float:right;
   height: 100vh;
   position: relative;
+}
+@media screen and (max-width: 800px) {
+  .right-container, .left-container {
+    width: 100%; 
+  }
 }
 
 /*Left container*/
@@ -222,7 +227,21 @@ i.fa-eye-slash{
   border-radius: 50%;
 }
 
+.password-strength .low{
+  background-color: #CD4146;
+}
 
+.password-strength .medium{
+  background-color: #F9C466;
+}
+
+.password-strength .good{
+  background-color:#0A96A3
+}
+
+.password-strength .perfect{
+  background-color:lightgreen
+}
 
 
 /*Right container*/
@@ -297,3 +316,4 @@ i.fa-eye-slash{
   transition: .3s;
   border: transparent 3px solid;
 }
+

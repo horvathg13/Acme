@@ -1,5 +1,5 @@
 <script>
-import { setBlockTracking } from 'vue';
+
 
 export default{
     data(){
@@ -8,40 +8,30 @@ export default{
             password:"",
             rememberMe:null,
             showPsw:true,
-            colors:["grey", "grey", "grey", "grey"],
-
         }
     },
-    watch:{
-        password:{
-            handler(newValue){
-                if(this.password === ""){
-                    this.colors=["grey", "grey", "grey", "grey"];
-                }
-
-                if(newValue.length>0 && newValue.length < 3){
-                    this.colors=["grey", "grey", "grey", "#CD4146"]
-                }else{
-                    if(/[a-z]/g.test(newValue) && /[A-Z]/g.test(newValue) && /[\d]/g.test(newValue) && /[\!\@\#\$\%\^\&\*\)\(\+\=\.\<\>\{\}\[\]\:\;\'\"\|\~\`\_\-]/g.test(newValue)){
-                        this.colors = ["lightgreen", "#0A96A3", "#F9C466", "#CD4146"];
-                    } else if (/[a-z]/g.test(newValue) && /[A-Z]/g.test(newValue) && /[\d]/g.test(newValue)){
-                        this.colors = ["grey", "#0A96A3", "#F9C466", "#CD4146"];
-                    } else if (/[a-z]/g.test(newValue) || /\d/g.test(newValue)){
-                        this.colors = ["grey", "grey", "grey", "#CD4146"];
-                    }
-                }
-            }
-            
-        }
-    },
+    
     computed:{
-        passwordShowOrHide(){
-            if(this.showPsw === false){
-                return 'fa-eye';
-            }else{
-                return 'fa-eye-slash'
+        passwordStengthMeter(){
+            let counter=0;
+
+            if(/[a-z]/g.test(this.password)){
+                counter+=1
             }
-        },
+            if(/\d/g.test(this.password)){
+                counter+=1            
+            }
+            if(/[A-Z]/g.test(this.password)){
+                counter+=1            
+            }
+            if(/\W/g.test(this.password)){
+                counter+=1            
+            }
+            if(this.password.length>9){
+                counter+=1
+            }
+            return counter;
+        }
     },    
     methods:{
         ShowPassword(){
@@ -69,12 +59,16 @@ export default{
                             <label>Email</label>
                         </div>
                         <div class="txt_field psw">
+                            
                             <input v-if="this.showPsw === false" type="password" v-model="this.password" required>
-                            <input v-else type="text" v-model="password" required>
+                            <input v-else type="text" v-model="this.password" required>
                             <span>
-                                <i :class="{'fa-eye': !showPsw, 'fa-eye-slash':showPsw}" @click="ShowPassword"></i>
+                                <i :class="showPsw ? 'fa-eye-slash':'fa-eye'" @click="ShowPassword"></i>
                                 <div class="password-strength" >
-                                    <span class="dot" v-for="(color,index) in colors" :key="index" :style="{backgroundColor:color}"></span>
+                                    <span class="dot" :class="{perfect: passwordStengthMeter>=4}"></span>
+                                    <span class="dot" :class="{good: passwordStengthMeter>=3}"></span>
+                                    <span class="dot" :class="{medium: passwordStengthMeter>=2}"></span>
+                                    <span class="dot" :class="{low: passwordStengthMeter>=1}"></span>
                                 </div>
                             </span>
                             <label>Password</label>
