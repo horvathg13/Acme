@@ -1,13 +1,19 @@
 <script>
-
-
+import axios from 'axios'
+import successLogin from './successLogin.vue'
 export default{
+    components: {
+        successLogin
+    },
     data(){
         return{
             email:"",
             password:"",
             rememberMe:null,
             showPsw:true,
+            responseData:{},
+            errorResponse:{},
+            showSuccessLogin:false,
         }
     },
     
@@ -36,6 +42,34 @@ export default{
     methods:{
         ShowPassword(){
             this.showPsw = !this.showPsw;
+        },
+        logIn(){
+            let data={
+                email:this.email,
+                password:this.password
+            }
+            let dataTravel={};
+            dataTravel.data = data
+
+            let url="https://us-central1-ria-server-b1103.cloudfunctions.net/authenticate"
+            axios.post(url,dataTravel).then((response) => {
+                if(response.status===200){
+                    if(response.data.result.error){
+                        this.errorResponse=response.data.result
+                        setTimeout(() => {
+                            this.errorResponse = {}
+                        }, 5000)
+                    }else{
+                        this.responseData=response.data.result
+                        this.showSuccessLogin=true;
+                    }
+                    
+                }
+               
+            })
+        },
+        logOut(){
+            this.showSuccessLogin=false
         }
     },
 }
@@ -46,7 +80,10 @@ export default{
 <template>
     <div class="base">
         <div class="left-container">
-            <div class="reg-container">
+            <Transition name="slide">
+                <successLogin v-if="this.showSuccessLogin===true" :userData="this.responseData" @logout="logOut"></successLogin>
+            </Transition>
+            <div class="reg-container" v-if="this.showSuccessLogin===false">
                 <div class="reg-main-text">
                     <h1>Welcome to Acme.</h1>
                     <h6>Create your account by filling the form below.</h6>
@@ -54,13 +91,13 @@ export default{
                 <div class="form-container">
                     <form method="post">
                         <div class="txt_field">
-                            <input type="text" v-model="email" required>
+                            <input type="text" v-model="this.email">
                             <span></span>
                             <label>Email</label>
                         </div>
                         <div class="txt_field psw">
                             
-                            <input v-if="this.showPsw === false" type="password" v-model="this.password" required>
+                            <input v-if="this.showPsw === false" type="password" v-model="this.password">
                             <input v-else type="text" v-model="this.password" required>
                             <span>
                                 <i :class="showPsw ? 'fa-eye-slash':'fa-eye'" @click="ShowPassword"></i>
@@ -97,7 +134,12 @@ export default{
                     <h4>That's awesome! You can log in by clicking on the button below. To skip the next time, you can ask us to remember your login credentials.</h4>
                 </div>
                 <div class="login-btn">
-                    <button @click="">Log in</button>
+                    <button @click="logIn">Log in</button>
+                    <Transition name="errorTransition">
+                        <div class="error" v-if="Object.keys(errorResponse).length>0">
+                            <ul v-for="(response,key) in errorResponse" :key="key">{{ response }}</ul>
+                        </div>
+                    </Transition>
                 </div>
             </div>
             
