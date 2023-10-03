@@ -35,6 +35,91 @@
   }
 }
 
+.response{
+  padding:10px 50px;
+  margin:15px auto;
+  width: max-content;
+  background-color: rgba(244,244,244,1);
+  border-radius: 50px;
+  height: fit-content;
+}
+.response ul{
+  list-style: none;
+  padding: 0 ;  
+}
+.drop-enter-active {
+  animation: fadeIn 1s;
+}
+.drop-leave-to {
+  animation: fadeOut 1s;
+}
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+@keyframes fadeOut {
+  0% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+
+.error{
+  padding:10px 50px;
+  margin:0 auto;
+  width: max-content;
+  background-color: rgba(252, 88, 88, 0.993);
+  border-radius: 50px;
+  height: fit-content;
+}
+.error ul{
+  padding: 0;
+  color:white;
+
+}
+
+@keyframes spreadOut{
+  0%  {opacity: 0; transform:scale(1); width:10px;}
+  50% {opacity: 1; transform:scale(1.2);width:90px;}
+  80% {width:250px;}
+  100%{width:max-content;}
+}
+
+.errorTransition-enter-active{
+  animation: spreadOut 0.8s;
+}
+.errorTransition-leave-to{
+  animation: fadeOut 0.5s;
+
+}
+
+.slide-enter-active {
+  animation: 1s slideLeft;
+}
+.slide-leave-to{
+  animation:slideR 1s
+}
+@keyframes slideLeft {
+  from {
+    opacity: 0;
+    margin-left: 100%;
+  }
+  to {
+    opacity: 1;
+    margin-left: 30%;
+  }
+}
+
+@keyframes slideR{
+  from{
+    margin-left:30%
+  }
+  to{
+    opacity: 0;
+    margin-right:100%;
+  }
+}
+
+
 /*Left container*/
 
 /*Register container*/
@@ -129,7 +214,6 @@ form .txt_field.psw{
   font-size: 14px;
   line-height: 17px;
   color: #A1A1A1;
-  
   height: 20px;
   display: inline-flex;
   align-items: center;
@@ -299,7 +383,9 @@ i.fa-eye-slash{
 .login-btn{
   top:50%;
   margin: 5px 10%;
- 
+  display: inline-flex;
+  width: 400px;
+  max-height: 45px;
 }
 
 .login-btn button{
