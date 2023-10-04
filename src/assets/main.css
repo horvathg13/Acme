@@ -5,6 +5,7 @@
   min-height: 100%;
   font-weight: normal;
   background-color: rgba(244,244,244,1);
+  overflow: hidden;
 }
 
 .base{
@@ -54,7 +55,8 @@
   animation: fadeOut 1s;
 }
 @keyframes fadeIn {
-  0% { opacity: 0; }
+  0% { transform:scale(1); opacity: 0; }
+  50% {transform:scale(1.2);opacity: 0.8;}
   100% { opacity: 1; }
 }
 @keyframes fadeOut {
@@ -67,20 +69,24 @@
   padding:10px 50px;
   margin:0 auto;
   width: max-content;
-  background-color: rgba(252, 88, 88, 0.993);
+  background-color: rgba(205,65,70,1);
   border-radius: 50px;
   height: fit-content;
+  display: flex;
+  justify-content: center;
+  justify-items: center;
 }
 .error ul{
   padding: 0;
   color:white;
-
+  min-width:150px;
+  text-align: center;
 }
 
 @keyframes spreadOut{
   0%  {opacity: 0; transform:scale(1); width:10px;}
-  50% {opacity: 1; transform:scale(1.2);width:90px;}
-  80% {width:250px;}
+  50% {transform:scale(1.2);width:200px;}
+  80% {width:270px;opacity: 1;}
   100%{width:max-content;}
 }
 
@@ -92,12 +98,13 @@
 
 }
 
-.slide-enter-active {
-  animation: 1s slideLeft;
+.successLogin-enter-active {
+  animation: 1s fadeIn;
 }
-.slide-leave-to{
-  animation:slideR 1s
+.successLogin-leave-to{
+  animation:fadeOut 0.3s
 }
+
 @keyframes slideLeft {
   from {
     opacity: 0;
@@ -111,12 +118,21 @@
 
 @keyframes slideR{
   from{
-    margin-left:30%
+    margin-left:30%;
   }
   to{
     opacity: 0;
     margin-right:100%;
   }
+}
+
+.regForm-enter-active{
+  animation: fadeIn 1s;
+}
+
+.regForm-leave-active{
+  animation:fadeOut 0.8s;
+ 
 }
 
 
@@ -402,4 +418,15 @@ i.fa-eye-slash{
   transition: .3s;
   border: transparent 3px solid;
 }
-
+.login-btn button.disable{
+  background-color: rgba(255, 255, 255, 0.59);
+  cursor: not-allowed;
+}
+.triangle{
+  background-image: url("../components/icons/warning-sign.png");
+  background-size: cover;
+  width:25px;
+  height: 25px;
+  min-width: 25px;
+  min-height: 25px;
+}
