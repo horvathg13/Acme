@@ -1,9 +1,10 @@
 <script>
 import axios from 'axios'
 import successLogin from './successLogin.vue'
+
 export default{
     components: {
-        successLogin
+        successLogin,
     },
     data(){
         return{
@@ -14,6 +15,7 @@ export default{
             responseData:{},
             errorResponse:{},
             showSuccessLogin:false,
+            buttonDisable:false
         }
     },
     
@@ -70,6 +72,12 @@ export default{
         },
         logOut(){
             this.showSuccessLogin=false
+        },
+        buttonDisabled(){
+            this.buttonDisable=true,
+            setTimeout(() => {
+                this.buttonDisable = false
+            }, 5000)
         }
     },
 }
@@ -80,47 +88,50 @@ export default{
 <template>
     <div class="base">
         <div class="left-container">
-            <Transition name="slide">
+            <Transition name="successLogin">
                 <successLogin v-if="this.showSuccessLogin===true" :userData="this.responseData" @logout="logOut"></successLogin>
             </Transition>
-            <div class="reg-container" v-if="this.showSuccessLogin===false">
-                <div class="reg-main-text">
-                    <h1>Welcome to Acme.</h1>
-                    <h6>Create your account by filling the form below.</h6>
+            <Transition name="regForm">
+                <div class="reg-container" v-if="this.showSuccessLogin===false">
+                    <div class="reg-main-text">
+                        <h1>Welcome to Acme.</h1>
+                        <h6>Create your account by filling the form below.</h6>
+                    </div>
+                    <div class="form-container">
+                        <form method="post">
+                            <div class="txt_field">
+                                <input type="text" v-model="this.email">
+                                <span></span>
+                                <label>Email</label>
+                            </div>
+                            <div class="txt_field psw">
+                                
+                                <input v-if="this.showPsw === false" type="password" v-model="this.password">
+                                <input v-else type="text" v-model="this.password" required>
+                                <span>
+                                    <i :class="showPsw ? 'fa-eye-slash':'fa-eye'" @click="ShowPassword"></i>
+                                    <div class="password-strength" >
+                                        <span class="dot" :class="{perfect: passwordStengthMeter>=4}"></span>
+                                        <span class="dot" :class="{good: passwordStengthMeter>=3}"></span>
+                                        <span class="dot" :class="{medium: passwordStengthMeter>=2}"></span>
+                                        <span class="dot" :class="{low: passwordStengthMeter>=1}"></span>
+                                    </div>
+                                </span>
+                                <label>Password</label>
+                            </div>
+                            <div class="remember">
+                                <input type="checkbox" class="custom-checkbox" id="remember-checkbox" v-model="rememberMe">
+                                <label for="remember-checkbox"></label>
+                                <h5>Remember me.</h5>
+                            </div>
+                            <div class="btn-container">
+                                <button :disabled="true">Sign up</button> 
+                            </div>
+                        </form>
+                    </div>
                 </div>
-                <div class="form-container">
-                    <form method="post">
-                        <div class="txt_field">
-                            <input type="text" v-model="this.email">
-                            <span></span>
-                            <label>Email</label>
-                        </div>
-                        <div class="txt_field psw">
-                            
-                            <input v-if="this.showPsw === false" type="password" v-model="this.password">
-                            <input v-else type="text" v-model="this.password" required>
-                            <span>
-                                <i :class="showPsw ? 'fa-eye-slash':'fa-eye'" @click="ShowPassword"></i>
-                                <div class="password-strength" >
-                                    <span class="dot" :class="{perfect: passwordStengthMeter>=4}"></span>
-                                    <span class="dot" :class="{good: passwordStengthMeter>=3}"></span>
-                                    <span class="dot" :class="{medium: passwordStengthMeter>=2}"></span>
-                                    <span class="dot" :class="{low: passwordStengthMeter>=1}"></span>
-                                </div>
-                            </span>
-                            <label>Password</label>
-                        </div>
-                        <div class="remember">
-                            <input type="checkbox" class="custom-checkbox" id="remember-checkbox" v-model="rememberMe">
-                            <label for="remember-checkbox"></label>
-                            <h5>Remember me.</h5>
-                        </div>
-                        <div class="btn-container">
-                            <button>Sign up</button> 
-                        </div>
-                    </form>
-                </div>
-            </div>
+            </Transition>
+
         </div>
         <div class="right-container">
             <div class="background"></div>
@@ -134,9 +145,10 @@ export default{
                     <h4>That's awesome! You can log in by clicking on the button below. To skip the next time, you can ask us to remember your login credentials.</h4>
                 </div>
                 <div class="login-btn">
-                    <button @click="logIn">Log in</button>
+                    <button :class="this.buttonDisable ?'disable':'login-btn-button'" @click="logIn" :disabled="this.buttonDisable">Log in</button>
                     <Transition name="errorTransition">
                         <div class="error" v-if="Object.keys(errorResponse).length>0">
+                            <i class="triangle"></i>
                             <ul v-for="(response,key) in errorResponse" :key="key">{{ response }}</ul>
                         </div>
                     </Transition>
