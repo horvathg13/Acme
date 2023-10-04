@@ -5,12 +5,18 @@ export default{
     },
     data(){
         return{
-          
+            buttonDisable:false
         }
     },
     methods:{
         logout(){
             this.$emit("logout");
+        },
+        buttonDisabled(){
+            this.buttonDisable=true,
+            setTimeout(() => {
+                this.buttonDisable = false
+            }, 5000)
         }
     }
 }
@@ -19,23 +25,30 @@ export default{
 <template>
     <div class="reg-container">
         <div class="reg-main-text">
-            <h1>Welcome {{ userData.name }}</h1>
-            <h6>Here your test datas:</h6>
+            <h1>Welcome {{ userData.name }}!</h1>
+            <h6>Here is your profile data:</h6>
         </div>
-        <div class="successList">
-            <ul v-for="(response,key,index) in userData" :key="index">{{ key }}: {{response }}</ul>
+        <div class="successTable">
+            <table>
+                <tbody>
+                    <tr v-for="(response,key,index) in userData" :key="index">
+                        <td :style="{fontWeight:'bold'}">{{ key }}:</td>
+                        <td>{{response }}</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
-        <button class="logOutbtn" @click="logout">Log out</button>
+        <button class="logOutbtn" @click="logout"  :disabled="this.buttonDisable">Log out</button>
     </div>
 </template>
 
 <style scoped>
 .reg-container{
-    background-color: rgb(167, 255, 138);
+    background-color: rgba(74, 144, 226,1);
     position: relative;
 }
 .reg-main-text h1, h6{
-    color:#504e4e
+    color:white
 }
 .logOutbtn{
     position: absolute;
@@ -44,26 +57,33 @@ export default{
     margin: 25px auto;
     padding: 12px 30px;
     border-radius: 5px;
-    border: none;
-    color: white;
-    background-color: rgba(74,144,226,1);
+    border: white 2px solid;
+    color: rgba(74,144,226,1);
+    background-color: white;
     cursor: pointer;
 }
 .logOutbtn:hover{
-  background-color: rgb(64, 123, 190);
+  background-color: rgb(224,224,224,1);
   transition: .3s;
 }
-.successList{
-    align-items: center;
-    display: table;
-    width:100%;
+
+.successTable{
+    width: 100%;
+    min-height: 110px;
+    height: fit-content;
+    color:white;
     margin:0 auto;
-    font-size: medium;
+
+
 }
 
-.successList ul:hover{
-    background-color: #05c62c67;
-    transition: 1s;
-    transform: scale(1);
+.successTable table{
+    margin:0 auto;
+    text-align: left;
+    
+}
+
+.successTable table tr td{
+    padding:0px 10px;
 }
 </style>
