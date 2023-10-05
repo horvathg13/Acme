@@ -95,7 +95,6 @@
 }
 .errorTransition-leave-to{
   animation: fadeOut 0.5s;
-
 }
 
 .successLogin-enter-active {
@@ -116,23 +115,12 @@
   }
 }
 
-@keyframes slideR{
-  from{
-    margin-left:30%;
-  }
-  to{
-    opacity: 0;
-    margin-right:100%;
-  }
-}
-
 .regForm-enter-active{
   animation: fadeIn 1s;
 }
 
 .regForm-leave-active{
   animation:fadeOut 0.8s;
- 
 }
 
 
@@ -429,4 +417,18 @@ i.fa-eye-slash{
   height: 25px;
   min-width: 25px;
   min-height: 25px;
+}
+.loader {
+  border: 8px solid #f7f7f7; 
+  border-top: 8px solid #4A90E2; 
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 2s linear infinite;
+  margin:auto 50px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
