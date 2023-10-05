@@ -3,21 +3,11 @@ export default{
     props:{
         userData:{},
     },
-    data(){
-        return{
-            buttonDisable:false
-        }
-    },
+   
     methods:{
         logout(){
             this.$emit("logout");
         },
-        buttonDisabled(){
-            this.buttonDisable=true,
-            setTimeout(() => {
-                this.buttonDisable = false
-            }, 5000)
-        }
     }
 }
 </script>
@@ -38,7 +28,7 @@ export default{
                 </tbody>
             </table>
         </div>
-        <button class="logOutbtn" @click="logout"  :disabled="this.buttonDisable">Log out</button>
+        <button class="logOutbtn" @click="logout">Log out</button>
     </div>
 </template>
 
@@ -73,14 +63,11 @@ export default{
     height: fit-content;
     color:white;
     margin:0 auto;
-
-
 }
 
 .successTable table{
     margin:0 auto;
     text-align: left;
-    
 }
 
 .successTable table tr td{
