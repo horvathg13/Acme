@@ -15,7 +15,9 @@ export default{
             responseData:{},
             errorResponse:{},
             showSuccessLogin:false,
-            buttonDisable:false
+            buttonDisable:false,
+            loader:false,
+            
         }
     },
     
@@ -53,32 +55,44 @@ export default{
             let dataTravel={};
             dataTravel.data = data
 
+
             let url="https://us-central1-ria-server-b1103.cloudfunctions.net/authenticate"
             axios.post(url,dataTravel).then((response) => {
+                this.buttonDisable=true;
+                this.loader=true;
+
                 if(response.status===200){
                     if(response.data.result.error){
+                        this.buttonDisable=false,
+                        this.loader=false,
                         this.errorResponse=response.data.result
                         setTimeout(() => {
                             this.errorResponse = {}
                         }, 5000)
                     }else{
+                        this.buttonDisable=false,
+                        this.loader=false,
                         this.responseData=response.data.result
                         this.showSuccessLogin=true;
                     }
-                    
                 }
                
-            })
+            }).catch(error =>{
+                if(error.response.data.error){
+                    this.buttonDisable=false,
+                    this.loader=false,
+                    this.errorResponse={
+                        "errorMessage":error.response.data.error.message
+                    }
+                    setTimeout(() => {
+                        this.errorResponse = {}
+                    }, 5000);
+                }
+            });
         },
         logOut(){
             this.showSuccessLogin=false
         },
-        buttonDisabled(){
-            this.buttonDisable=true,
-            setTimeout(() => {
-                this.buttonDisable = false
-            }, 5000)
-        }
     },
 }
 
@@ -146,12 +160,14 @@ export default{
                 </div>
                 <div class="login-btn">
                     <button :class="this.buttonDisable ?'disable':'login-btn-button'" @click="logIn" :disabled="this.buttonDisable">Log in</button>
+                    <div class="loader" v-if="this.loader===true"></div>
                     <Transition name="errorTransition">
                         <div class="error" v-if="Object.keys(errorResponse).length>0">
                             <i class="triangle"></i>
                             <ul v-for="(response,key) in errorResponse" :key="key">{{ response }}</ul>
                         </div>
                     </Transition>
+                    
                 </div>
             </div>
             
