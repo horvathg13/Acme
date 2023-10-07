@@ -246,6 +246,10 @@ form .txt_field.psw{
   font-size: 14px;
   line-height: 17px;
   color: #A1A1A1;
+  cursor: pointer;
+  -webkit-user-select: none; 
+  -ms-user-select: none; 
+  user-select: none; 
 }
 .btn-container{
   position: relative;
