@@ -34,6 +34,14 @@
   .right-container, .left-container {
     width: 100%; 
   }
+  .login-btn{
+    flex-direction: column;
+  }
+  .login-btn .error{
+    margin-top: 10px;
+    margin-left: 0px;
+  }
+  
 }
 
 .response{
@@ -67,26 +75,28 @@
 .error{
   padding:10px 50px;
   margin:0 auto;
-  width: max-content;
+  width: fit-content;
   background-color: rgba(205,65,70,1);
   border-radius: 50px;
   height: fit-content;
   display: flex;
   justify-content: center;
   justify-items: center;
+  margin-left: 40px;
+  
 }
 .error ul{
   padding: 0;
   color:white;
   min-width:150px;
   text-align: center;
+  
 }
 
 @keyframes spreadOut{
-  0%  {opacity: 0; transform:scale(1); width:10px;}
-  50% {transform:scale(1.2);width:200px;}
-  80% {width:270px;opacity: 1;}
-  100%{width:max-content;}
+  0%  {opacity: 0; transform:scale(1);}
+  50% {transform:scale(1.2); }
+  100%{opacity: 1;transform:scale(1)}
 }
 
 .errorTransition-enter-active{
@@ -376,7 +386,7 @@ i.fa-eye-slash{
   top:50%;
   margin: 5px 10%;
   display: inline-flex;
-  width: 400px;
+  width: fit-content;
   max-height: 45px;
 }
 
