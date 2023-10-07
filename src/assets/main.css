@@ -97,10 +97,10 @@
 }
 
 .successLogin-enter-active {
-  animation: 1s fadeIn;
+  animation: fadeIn 1s ;
 }
 .successLogin-leave-to{
-  animation:fadeOut 0.3s
+  display: none;
 }
 
 .regForm-enter-active{
@@ -108,7 +108,7 @@
 }
 
 .regForm-leave-active{
-  animation:fadeOut 0.8s;
+  display: none;
 }
 
 
