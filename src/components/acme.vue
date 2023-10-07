@@ -11,13 +11,13 @@ export default{
             email:"",
             password:"",
             rememberMe:null,
-            showPsw:true,
+            showPsw:false,
             responseData:{},
             errorResponse:{},
             showSuccessLogin:false,
             buttonDisable:false,
             loader:false,
-            
+            myTimeout:undefined
         }
     },
     
@@ -55,43 +55,44 @@ export default{
             let dataTravel={};
             dataTravel.data = data
 
-
             let url="https://us-central1-ria-server-b1103.cloudfunctions.net/authenticate"
             axios.post(url,dataTravel).then((response) => {
                 this.buttonDisable=true;
                 this.loader=true;
 
                 if(response.status===200){
+                            
                     if(response.data.result.error){
-                        this.buttonDisable=false,
-                        this.loader=false,
-                        this.errorResponse=response.data.result
-                        setTimeout(() => {
-                            this.errorResponse = {}
-                        }, 5000)
+                        this.buttonDisable=false;
+                        this.loader=false;
+                        this.errorResponse=response.data.result;
+                        clearTimeout(this.myTimeout);
+                        this.myTimeout = setTimeout(() => {this.errorResponse = {}}, 5000);
+                        
                     }else{
-                        this.buttonDisable=false,
-                        this.loader=false,
+                        this.buttonDisable=false;
+                        this.loader=false;
                         this.responseData=response.data.result
                         this.showSuccessLogin=true;
                     }
+                    
                 }
                
             }).catch(error =>{
                 if(error.response.data.error){
-                    this.buttonDisable=false,
-                    this.loader=false,
+                    this.buttonDisable=false;
+                    this.loader=false;
                     this.errorResponse={
-                        "errorMessage":error.response.data.error.message
+                        "errorMessage":"Something went wrong. Please try again later."
                     }
-                    setTimeout(() => {
-                        this.errorResponse = {}
-                    }, 5000);
+                    clearTimeout(this.myTimeout);
+                    this.myTimeout = setTimeout(() => {this.errorResponse = {}}, 5000);
                 }
             });
         },
         logOut(){
-            this.showSuccessLogin=false
+            this.showSuccessLogin=false;
+            this.responseData={};
         },
     },
 }
@@ -114,7 +115,7 @@ export default{
                     <div class="form-container">
                         <form method="post">
                             <div class="txt_field">
-                                <input type="text" v-model="this.email">
+                                <input type="text" v-model="this.email" required>
                                 <span></span>
                                 <label>Email</label>
                             </div>
