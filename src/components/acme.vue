@@ -54,12 +54,14 @@ export default{
             }
             let dataTravel={};
             dataTravel.data = data
+            clearTimeout(this.myTimeout);
+            this.errorResponse = {};
+            this.loader=true;
 
             let url="https://us-central1-ria-server-b1103.cloudfunctions.net/authenticate"
             axios.post(url,dataTravel).then((response) => {
                 this.buttonDisable=true;
-                this.loader=true;
-
+                
                 if(response.status===200){
                             
                     if(response.data.result.error){
@@ -121,8 +123,7 @@ export default{
                             </div>
                             <div class="txt_field psw">
                                 
-                                <input v-if="this.showPsw === false" type="password" v-model="this.password">
-                                <input v-else type="text" v-model="this.password" required>
+                                <input :type="this.showPsw ? 'text' : 'password'" v-model="this.password" required>
                                 <span>
                                     <i :class="showPsw ? 'fa-eye-slash':'fa-eye'" @click="ShowPassword"></i>
                                     <div class="password-strength" >
@@ -137,7 +138,8 @@ export default{
                             <div class="remember">
                                 <input type="checkbox" class="custom-checkbox" id="remember-checkbox" v-model="rememberMe">
                                 <label for="remember-checkbox"></label>
-                                <h5>Remember me.</h5>
+                                <label for="remember-checkbox"><h5>Remember me.</h5></label>
+                                
                             </div>
                             <div class="btn-container">
                                 <button :disabled="true">Sign up</button> 
@@ -160,9 +162,9 @@ export default{
                     <h4>That's awesome! You can log in by clicking on the button below. To skip the next time, you can ask us to remember your login credentials.</h4>
                 </div>
                 <div class="login-btn">
-                    <button :class="this.buttonDisable ?'disable':'login-btn-button'" @click="logIn" :disabled="this.buttonDisable">Log in</button>
+                    <button v-if="this.loader===false" :class="this.buttonDisable ?'disable':'login-btn-button'" @click="logIn" :disabled="this.buttonDisable">Log in</button>
                     <div class="loader" v-if="this.loader===true"></div>
-                    <Transition name="errorTransition">
+                    <Transition :name="this.loader ? 'errorTransitionLoader' : 'errorTransition'">
                         <div class="error" v-if="Object.keys(errorResponse).length>0">
                             <i class="triangle"></i>
                             <ul v-for="(response,key) in errorResponse" :key="key">{{ response }}</ul>
