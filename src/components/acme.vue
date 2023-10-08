@@ -8,9 +8,9 @@ export default{
     },
     data(){
         return{
-            email:"",
+            email: localStorage.getItem("email") ? localStorage.getItem("email"): "",
             password:"",
-            rememberMe:null,
+            rememberMe:false,
             showPsw:false,
             responseData:{},
             errorResponse:{},
@@ -20,7 +20,14 @@ export default{
             myTimeout:undefined
         }
     },
-    
+    watch:{
+        "email"(newValue){
+            if(localStorage.getItem("email") && newValue !== localStorage.getItem("email")){
+                localStorage.removeItem("email");
+                this.rememberMe=false;
+            }
+        },
+    },
     computed:{
         passwordStengthMeter(){
             let counter=0;
@@ -41,13 +48,20 @@ export default{
                 counter+=1
             }
             return counter;
-        }
+        },
+
     },    
     methods:{
         ShowPassword(){
             this.showPsw = !this.showPsw;
         },
         logIn(){
+            if(this.rememberMe===true && this.email !== ''){
+                localStorage.setItem("email", this.email);
+            }else{
+                localStorage.removeItem("email");
+            }
+
             let data={
                 email:this.email,
                 password:this.password
@@ -70,16 +84,13 @@ export default{
                         this.errorResponse=response.data.result;
                         clearTimeout(this.myTimeout);
                         this.myTimeout = setTimeout(() => {this.errorResponse = {}}, 5000);
-                        
                     }else{
                         this.buttonDisable=false;
                         this.loader=false;
                         this.responseData=response.data.result
                         this.showSuccessLogin=true;
                     }
-                    
                 }
-               
             }).catch(error =>{
                 if(error.response.data.error){
                     this.buttonDisable=false;
@@ -95,6 +106,8 @@ export default{
         logOut(){
             this.showSuccessLogin=false;
             this.responseData={};
+            this.password="";
+            this.email=localStorage.getItem("email") ? localStorage.getItem("email"):'';
         },
     },
 }
@@ -122,7 +135,6 @@ export default{
                                 <label>Email</label>
                             </div>
                             <div class="txt_field psw">
-                                
                                 <input :type="this.showPsw ? 'text' : 'password'" v-model="this.password" required>
                                 <span>
                                     <i :class="showPsw ? 'fa-eye-slash':'fa-eye'" @click="ShowPassword"></i>
@@ -139,7 +151,6 @@ export default{
                                 <input type="checkbox" class="custom-checkbox" id="remember-checkbox" v-model="rememberMe">
                                 <label for="remember-checkbox"></label>
                                 <label for="remember-checkbox"><h5>Remember me.</h5></label>
-                                
                             </div>
                             <div class="btn-container">
                                 <button :disabled="true">Sign up</button> 
@@ -148,7 +159,6 @@ export default{
                     </div>
                 </div>
             </Transition>
-
         </div>
         <div class="right-container">
             <div class="background"></div>
@@ -156,12 +166,14 @@ export default{
                 <i class="acme"></i>
             </div>
             <div class="content">
-                
-                <div class="text-container">
+                <div class="text-container" v-if="this.showSuccessLogin===false">
                     <h2>Do you already have an account?</h2>
                     <h4>That's awesome! You can log in by clicking on the button below. To skip the next time, you can ask us to remember your login credentials.</h4>
                 </div>
-                <div class="login-btn">
+                <div class="text-container" v-else>
+                    <h2>That's awesome!</h2>
+                </div>
+                <div class="login-btn" v-if="this.showSuccessLogin===false">
                     <button v-if="this.loader===false" :class="this.buttonDisable ?'disable':'login-btn-button'" @click="logIn" :disabled="this.buttonDisable">Log in</button>
                     <div class="loader" v-if="this.loader===true"></div>
                     <Transition :name="this.loader ? 'errorTransitionLoader' : 'errorTransition'">
@@ -170,13 +182,8 @@ export default{
                             <ul v-for="(response,key) in errorResponse" :key="key">{{ response }}</ul>
                         </div>
                     </Transition>
-                    
                 </div>
             </div>
-            
-           
-            
-            
         </div>
     </div>
 </template>
