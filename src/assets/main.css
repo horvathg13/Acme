@@ -345,10 +345,10 @@ i.fa-eye-slash{
 .logo{
   display: flex;
   position: absolute;
-  margin:5% 10%;
+  margin:1% 10%;
   width: 310px;
   height: fit-content;
-  top:15%;
+  top:17%;
 }
 .logo i.acme{
   background-image: url("../components/icons/acme@3x.png");
